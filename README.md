@@ -7,6 +7,8 @@
 - Add docker support
 - Add additional integration tests around the HackerNewsService, HackerNewsClient & GetBestNewsItemsEndpoint
 - Add additional unit tests around the HackerNewsService, HackerNewsClient & GetBestNewsItemsEndpoint
+- Add performance and load tests
+- Setup Polly retry in program.cs
 
 ## Implementation specification
 - Get full list of best news items
