@@ -1,12 +1,14 @@
-﻿using DotnetDocsShow.Structured.Mediator.Handlers;
-using DotnetDocsShow.Structured.Mediator.Services;
-using HackerNewsFilter.Structured.Mediator.Models;
+﻿using DotnetDocsShow.Structured.Mediator.Services;
+using FastEndpoints;
+using FastEndpoints.Swagger;
+using HackerNewsFilter.Structured.Mediator.Middleware;
 using HackerNewsFilter.Structured.Mediator.Services;
-using MediatR;
 
 var builder = WebApplication.CreateBuilder();
 
-builder.Services.AddMediatR(typeof(NewsItem));
+builder.Services.AddFastEndpoints();
+builder.Services.SwaggerDocument();
+
 builder.Services.AddHttpClient("HackerNews", client =>
 {
     client.BaseAddress = new Uri("https://hacker-news.firebaseio.com/v0/");
@@ -17,8 +19,20 @@ builder.Services.AddTransient<IHackerNewsClient, HackerNewsClient>();
 
 var app = builder.Build();
 
-app.MapGet("news", async (IMediator mediator) => await mediator.Send(new GetBestItemsRequest()));
-app.MapGet("/news/{id}", async (IMediator mediator, long id) => await mediator.Send(new GetNewsItemByIdRequest(id)));
+app.UseMiddleware<ValidationExceptionMiddleware>();
+app.UseFastEndpoints(x =>
+{
+    //x.ErrorResponseBuilder = (failures, _) =>
+    //{
+    //    return new ValidationFailureResponse
+    //    {
+    //        Errors = failures.Select(y => y.ErrorMessage).ToList()
+    //    };
+    //};
+});
+
+app.UseOpenApi();
+app.UseSwaggerUi3(s => s.ConfigureDefaults());
 
 app.Run();
 

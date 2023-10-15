@@ -5,7 +5,7 @@ namespace DotnetDocsShow.Structured.Mediator.Services;
 
 public interface IHackerNewsService
 {
-    Task<NewsItem> GetNewsItemByIdAsync(long id);
+    Task<NewsItem> GetNewsItemByIdAsync(int id);
 
     Task<BestNewsItems> GetAll();
 }
@@ -21,7 +21,7 @@ public class HackerNewsService : IHackerNewsService
         _hackerNewsClient = hackerNewsClient;
     }
 
-    public Task<NewsItem> GetNewsItemByIdAsync(long id)
+    public Task<NewsItem> GetNewsItemByIdAsync(int id)
     {
         return _hackerNewsClient.GetNewsItemByIdAsync(id);
     }

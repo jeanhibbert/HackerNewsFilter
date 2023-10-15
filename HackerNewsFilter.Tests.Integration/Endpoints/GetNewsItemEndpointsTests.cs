@@ -7,11 +7,11 @@ using Xunit;
 
 namespace HackerNewsFilter.Tests.Integration.Endpoints;
 
-public class BroadNewsItemEndpointsTests
+public class GetNewsItemEndpointsTests
 {
     private Fixture _fixture;
 
-    public BroadNewsItemEndpointsTests()
+    public GetNewsItemEndpointsTests()
     { 
         _fixture = new Fixture();
     }
@@ -26,7 +26,7 @@ public class BroadNewsItemEndpointsTests
         var httpClient = app.CreateClient();
 
         //Act
-        var response = await httpClient.GetAsync($"/news/{id}");
+        var response = await httpClient.GetAsync($"news/{id}");
 
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -38,11 +38,11 @@ public class BroadNewsItemEndpointsTests
         //Arrange
         using var app = new TestApplicationFactory();
 
-        var id = _fixture.Create<long>();
+        var id = _fixture.Create<int>();
         var httpClient = app.CreateClient();
 
         //Act
-        var response = await httpClient.GetAsync($"/news/{id}");
+        var response = await httpClient.GetAsync($"news/{id}");
 
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
