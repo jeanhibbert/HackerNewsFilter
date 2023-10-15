@@ -26,7 +26,7 @@
 
 ## Caching strategies
 - Wanted to use a combination of output caching (60 second timeout) for multiple calls with the same fetchCount query parameter, as well as in memory caching of the full best news item list (ordered by score) with a refresh time window of 5 minutes.
-This way the cache refresh strategies are used together can be optimised over time.
+The cache refresh strategies can be optimised over time.
 
 ## Reference URLS
 https://github.com/HackerNews/API
