@@ -28,6 +28,5 @@
 - Wanted to use a combination of output caching (60 second timeout) for multiple calls with the same fetchCount query parameter, as well as in memory caching of the full best news item list (ordered by score) with a refresh time window of 5 minutes.
 The cache refresh strategies can be optimised over time.
 
-## Reference URLS
+## Reference URL
 https://github.com/HackerNews/API
-https://hacker-news.firebaseio.com/v0/item/21233041.json
