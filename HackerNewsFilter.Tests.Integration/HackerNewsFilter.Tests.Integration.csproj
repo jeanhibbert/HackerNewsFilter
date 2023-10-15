@@ -24,7 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\HackerNewsFilter.Structured.Mediator\HackerNewsFilter.Api.csproj" />
+      <ProjectReference Include="..\HackerNewsFilter.Api\HackerNewsFilter.Api.csproj" />
     </ItemGroup>
 
 </Project>
