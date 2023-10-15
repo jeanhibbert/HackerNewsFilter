@@ -2,5 +2,5 @@
 
 public class BestNewsItems
 {
-    public List<long> BestNewsIds { get; set; }
+    public List<int> BestNewsIds { get; set; }
 }

@@ -8,8 +8,9 @@ var builder = WebApplication.CreateBuilder();
 
 builder.Services.AddFastEndpoints();
 builder.Services.SwaggerDocument();
+builder.Services.AddMemoryCache();
 
-builder.Services.AddHttpClient("HackerNews", client =>
+builder.Services.AddHttpClient(HackerNewsFilter.Structured.Mediator.Config.HackerNewsBaseUrlName, client =>
 {
     client.BaseAddress = new Uri("https://hacker-news.firebaseio.com/v0/");
 });

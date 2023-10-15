@@ -22,27 +22,11 @@ public class GetNewsItemEndpointsTests
         //Arrange
         using var app = new TestApplicationFactory();
 
-        var id = 37850265;
+        var fetchCount = _fixture.Create<int>();
         var httpClient = app.CreateClient();
 
         //Act
-        var response = await httpClient.GetAsync($"news/{id}");
-
-        //Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-    }
-
-    [Fact]
-    public async Task GetNewsItemById_ReturnNotFound_WhenNewsItemDoesNotExists()
-    {
-        //Arrange
-        using var app = new TestApplicationFactory();
-
-        var id = _fixture.Create<int>();
-        var httpClient = app.CreateClient();
-
-        //Act
-        var response = await httpClient.GetAsync($"news/{id}");
+        var response = await httpClient.GetAsync($"news/{fetchCount}");
 
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);

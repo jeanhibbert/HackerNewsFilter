@@ -4,8 +4,8 @@ namespace HackerNewsFilter.Structured.Mediator.Services;
 
 public interface IHackerNewsClient
 {
-    Task<NewsItem> GetNewsItemByIdAsync(long id);
-    Task<BestNewsItems> GetBestNewsItemsAsync();
+    Task<NewsItem> GetNewsItemByIdAsync(int id);
+    Task<BestNewsItems> GetAllBestNewsItemsAsync();
 }
 
 public class HackerNewsClient : IHackerNewsClient
@@ -19,9 +19,9 @@ public class HackerNewsClient : IHackerNewsClient
         _httpClientFactory = httpClientFactory;
     }
 
-    public async Task<NewsItem> GetNewsItemByIdAsync(long id)
+    public async Task<NewsItem> GetNewsItemByIdAsync(int id)
     {
-        var httpClient = _httpClientFactory.CreateClient("HackerNews");
+        var httpClient = _httpClientFactory.CreateClient(Config.HackerNewsBaseUrlName);
 
         var response = await httpClient.GetAsync($"item/{id}.json");
         response.EnsureSuccessStatusCode();
@@ -29,14 +29,14 @@ public class HackerNewsClient : IHackerNewsClient
         return await response.Content.ReadFromJsonAsync<NewsItem>();
     }
 
-    public async Task<BestNewsItems> GetBestNewsItemsAsync()
+    public async Task<BestNewsItems> GetAllBestNewsItemsAsync()
     {
-        var httpClient = _httpClientFactory.CreateClient("HackerNews");
+        var httpClient = _httpClientFactory.CreateClient(Config.HackerNewsBaseUrlName);
 
         var response = await httpClient.GetAsync("beststories.json");
         response.EnsureSuccessStatusCode();
 
-        var bestNewIds = await response.Content.ReadFromJsonAsync<List<long>>();
+        var bestNewIds = await response.Content.ReadFromJsonAsync<List<int>>();
         return new BestNewsItems 
         { 
             BestNewsIds = bestNewIds

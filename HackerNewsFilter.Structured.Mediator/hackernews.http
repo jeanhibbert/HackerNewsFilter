@@ -1,8 +1,4 @@
-### Get the best news
-GET https://localhost:50561/news
-Accept: application/json
-
-### Get news item by id
+### Get the following news top news items
 GET https://localhost:50561/news/1234
 Accept: application/json
 
