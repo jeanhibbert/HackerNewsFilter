@@ -1,4 +1,4 @@
-﻿namespace HackerNewsFilter.Structured.Mediator.Models;
+﻿namespace HackerNewsFilter.Api.Models;
 
 public class NewsItem
 {
@@ -6,6 +6,7 @@ public class NewsItem
     public int id { get; set; }
     public string title { get; set; }
     public string url { get; set; }
+    public int score { get; set; }
     public int time { get; set; }
     public int descendants { get; set; }
 }

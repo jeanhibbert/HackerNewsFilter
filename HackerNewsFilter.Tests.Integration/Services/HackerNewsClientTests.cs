@@ -1,7 +1,7 @@
 ﻿using AutoFixture;
 using DotnetDocsShow.Tests.Integration;
 using FluentAssertions;
-using HackerNewsFilter.Structured.Mediator.Services;
+using HackerNewsFilter.Api.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 using Xunit;

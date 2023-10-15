@@ -1,25 +1,22 @@
-﻿using HackerNewsFilter.Structured.Mediator.Contracts.Responses;
-using HackerNewsFilter.Structured.Mediator.Models;
+﻿using HackerNewsFilter.Api.Contracts.Responses;
+using HackerNewsFilter.Api.Models;
 
-namespace HackerNewsFilter.Structured.Mediator.Mapping;
+namespace HackerNewsFilter.Api.Mapping;
 
 public static class DomainToApiContractMapper
 {
-    public static NewsItemResponse ToNewsItemResponse(this NewsItem newsItem)
-    {
-        return new NewsItemResponse
-        {
-            id = newsItem.id
-        };
-    }
-
     public static GetBestNewsItemsResponse ToNewsItemsResponse(this IEnumerable<NewsItem> newsItems)
     {
         return new GetBestNewsItemsResponse
         {
             BestNewsItems = newsItems.Select(x => new NewsItemResponse
             {
-               id = x.id
+                Title = x.title,
+                Uri = x.url,
+                PostedBy = x.by,
+                Time = DateTimeOffset.FromUnixTimeSeconds(x.time),
+                Score = x.score,
+                CommentCount = x.descendants
             })
         };
     }

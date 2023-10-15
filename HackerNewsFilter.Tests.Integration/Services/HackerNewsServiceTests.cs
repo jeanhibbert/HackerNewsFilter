@@ -1,5 +1,5 @@
 ﻿using AutoFixture;
-using DotnetDocsShow.Structured.Mediator.Services;
+using DotnetDocsShow.Api.Services;
 using DotnetDocsShow.Tests.Integration;
 using FluentAssertions;
 using HackerNewsFilter.Tests.Integration.Extensions;

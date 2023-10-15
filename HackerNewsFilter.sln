@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HackerNewsFilter.Structured.Mediator", "HackerNewsFilter.Structured.Mediator\HackerNewsFilter.Structured.Mediator.csproj", "{17A7160A-EF45-450F-9B23-79059E663F7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HackerNewsFilter.Api", "HackerNewsFilter.Structured.Mediator\HackerNewsFilter.Api.csproj", "{17A7160A-EF45-450F-9B23-79059E663F7E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HackerNewsFilter.Tests.Integration", "HackerNewsFilter.Tests.Integration\HackerNewsFilter.Tests.Integration.csproj", "{7E24D7A1-826A-4E4F-A311-3E699BD7B1B5}"
 EndProject

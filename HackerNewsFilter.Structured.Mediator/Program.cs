@@ -1,16 +1,17 @@
-﻿using DotnetDocsShow.Structured.Mediator.Services;
+﻿using DotnetDocsShow.Api.Services;
 using FastEndpoints;
 using FastEndpoints.Swagger;
-using HackerNewsFilter.Structured.Mediator.Middleware;
-using HackerNewsFilter.Structured.Mediator.Services;
+using HackerNewsFilter.Api.Middleware;
+using HackerNewsFilter.Api.Services;
 
 var builder = WebApplication.CreateBuilder();
 
-builder.Services.AddFastEndpoints();
+builder.Services.AddOutputCache();
+builder.Services.AddFastEndpoints().AddResponseCaching();
 builder.Services.SwaggerDocument();
 builder.Services.AddMemoryCache();
 
-builder.Services.AddHttpClient(HackerNewsFilter.Structured.Mediator.Config.HackerNewsBaseUrlName, client =>
+builder.Services.AddHttpClient(HackerNewsFilter.Api.Config.HackerNewsBaseUrlName, client =>
 {
     client.BaseAddress = new Uri("https://hacker-news.firebaseio.com/v0/");
 });
@@ -21,19 +22,18 @@ builder.Services.AddTransient<IHackerNewsClient, HackerNewsClient>();
 var app = builder.Build();
 
 app.UseMiddleware<ValidationExceptionMiddleware>();
-app.UseFastEndpoints(x =>
-{
-    //x.ErrorResponseBuilder = (failures, _) =>
-    //{
-    //    return new ValidationFailureResponse
-    //    {
-    //        Errors = failures.Select(y => y.ErrorMessage).ToList()
-    //    };
-    //};
-});
+app.UseOutputCache();
+app.UseResponseCaching().UseFastEndpoints();
 
-app.UseOpenApi();
-app.UseSwaggerUi3(s => s.ConfigureDefaults());
+if (app.Environment.IsDevelopment())
+{
+    app.UseOpenApi();
+    app.UseSwaggerUi3();
+    app.UseReDoc(options =>
+    {
+        options.Path = "/redoc";
+    });
+}
 
 app.Run();
 

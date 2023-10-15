@@ -31,4 +31,20 @@ public class GetNewsItemEndpointsTests
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
+
+    [Fact]
+    public async Task GetNewsItemById_ReturnBadRequest_WhenValidationFails()
+    {
+        //Arrange
+        using var app = new TestApplicationFactory();
+
+        var fetchCount = -1;
+        var httpClient = app.CreateClient();
+
+        //Act
+        var response = await httpClient.GetAsync($"news/{fetchCount}");
+
+        //Assert
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+    }
 }

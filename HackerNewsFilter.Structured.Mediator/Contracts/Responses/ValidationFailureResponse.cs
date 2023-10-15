@@ -1,4 +1,4 @@
-﻿namespace HackerNewsFilter.Structured.Mediator.Contracts.Responses;
+﻿namespace HackerNewsFilter.Api.Contracts.Responses;
 
 public class ValidationFailureResponse
 {

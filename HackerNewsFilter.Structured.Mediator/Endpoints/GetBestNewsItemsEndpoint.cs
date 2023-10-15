@@ -1,20 +1,30 @@
-﻿using DotnetDocsShow.Structured.Mediator.Services;
+﻿using DotnetDocsShow.Api.Services;
 using FastEndpoints;
-using HackerNewsFilter.Structured.Mediator.Contracts.Requests;
-using HackerNewsFilter.Structured.Mediator.Contracts.Responses;
-using HackerNewsFilter.Structured.Mediator.Mapping;
-using Microsoft.AspNetCore.Authorization;
+using HackerNewsFilter.Api.Contracts.Requests;
+using HackerNewsFilter.Api.Contracts.Responses;
+using HackerNewsFilter.Api.Mapping;
+using HackerNewsFilter.Api.Validators;
 
-namespace HackerNewsFilter.Structured.Mediator.Endpoints;
+namespace HackerNewsFilter.Api.Endpoints;
 
-[HttpGet("news/{fetchCount:int}"), AllowAnonymous]
 public class GetBestNewsItemsEndpoint : Endpoint<GetBestNewsItemsRequest, GetBestNewsItemsResponse>
 {
     private readonly IHackerNewsService _hackerNewsService;
 
+    private readonly int OutPutCacheTimeOutInSeconds = 60;
+
     public GetBestNewsItemsEndpoint(IHackerNewsService customerService)
     {
         _hackerNewsService = customerService;
+    }
+
+    public override void Configure()
+    {
+        Get("news/{fetchCount:int}");
+        AllowAnonymous();
+        Options(x => x.CacheOutput(p => p.SetVaryByQuery("fetchCount")
+            .Expire(TimeSpan.FromSeconds(OutPutCacheTimeOutInSeconds))));
+        Validator<GetBestNewsItemsValidator>();
     }
 
     public override async Task HandleAsync(GetBestNewsItemsRequest request, CancellationToken cancellationToken)

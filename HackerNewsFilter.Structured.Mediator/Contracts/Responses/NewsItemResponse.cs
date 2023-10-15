@@ -1,12 +1,11 @@
-﻿namespace HackerNewsFilter.Structured.Mediator.Contracts.Responses;
+﻿namespace HackerNewsFilter.Api.Contracts.Responses;
 
 public record NewsItemResponse
 {
-    public string by { get; set; }
-    public int id { get; set; }
-    public List<int> kids { get; set; }
-    public int parent { get; set; }
-    public string text { get; set; }
-    public int time { get; set; }
-    public string type { get; set; }
+    public string Title { get; set; }
+    public string Uri { get; set; }
+    public string PostedBy { get; set; }
+    public DateTimeOffset Time { get; set; }
+    public int Score { get; set; }
+    public int CommentCount { get; set; }
 }

@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "DotnetDocsShow.Structured.Mediator": {
+    "HackerNewsFilter.Api": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

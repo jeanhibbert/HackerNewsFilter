@@ -1,4 +1,4 @@
-﻿namespace HackerNewsFilter.Structured.Mediator.Contracts.Requests;
+﻿namespace HackerNewsFilter.Api.Contracts.Requests;
 
 public record GetBestNewsItemsRequest
 {

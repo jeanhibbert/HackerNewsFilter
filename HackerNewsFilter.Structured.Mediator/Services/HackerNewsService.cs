@@ -1,9 +1,9 @@
-﻿using HackerNewsFilter.Structured.Mediator;
-using HackerNewsFilter.Structured.Mediator.Models;
-using HackerNewsFilter.Structured.Mediator.Services;
+﻿using HackerNewsFilter.Api;
+using HackerNewsFilter.Api.Models;
+using HackerNewsFilter.Api.Services;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace DotnetDocsShow.Structured.Mediator.Services;
+namespace DotnetDocsShow.Api.Services;
 
 public interface IHackerNewsService
 {
@@ -46,7 +46,7 @@ public class HackerNewsService : IHackerNewsService
         var result = await Task.WhenAll(itemFetchTaskList);
 
         return result
-            .OrderByDescending(x => x.descendants)
+            .OrderByDescending(x => x.score)
             .ToList();
     }
 }

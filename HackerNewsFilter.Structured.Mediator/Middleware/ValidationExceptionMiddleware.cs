@@ -1,7 +1,7 @@
-﻿using HackerNewsFilter.Structured.Mediator.Contracts.Responses;
+﻿using HackerNewsFilter.Api.Contracts.Responses;
 using FluentValidation;
 
-namespace HackerNewsFilter.Structured.Mediator.Middleware;
+namespace HackerNewsFilter.Api.Middleware;
 
 public class ValidationExceptionMiddleware
 {

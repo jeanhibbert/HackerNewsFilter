@@ -1,4 +1,4 @@
-﻿namespace HackerNewsFilter.Structured.Mediator.Models;
+﻿namespace HackerNewsFilter.Api.Models;
 
 public class BestNewsItems
 {

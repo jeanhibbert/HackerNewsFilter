@@ -1,4 +1,4 @@
-﻿namespace HackerNewsFilter.Structured.Mediator;
+﻿namespace HackerNewsFilter.Api;
 
 public static class Config
 {
