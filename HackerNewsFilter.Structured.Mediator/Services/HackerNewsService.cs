@@ -7,7 +7,7 @@ namespace DotnetDocsShow.Api.Services;
 
 public interface IHackerNewsService
 {
-    Task<List<NewsItem>> GetBestNewsItemsAsync(int fetchCount);
+    Task<List<NewsItem>> GetBestNewsItemsAsync(int fetchCount, CancellationToken cancellationToken = default);
 }
 
 public class HackerNewsService : IHackerNewsService
@@ -26,22 +26,22 @@ public class HackerNewsService : IHackerNewsService
         _cache = cache;
     }
 
-    public async Task<List<NewsItem>> GetBestNewsItemsAsync(int fetchCount)
+    public async Task<List<NewsItem>> GetBestNewsItemsAsync(int fetchCount, CancellationToken cancellationToken = default)
     {
-        var bestNewsItems = await _cache.GetOrCreateAsync(Config.GetBestNewsKey, async entry =>
+        var bestNewsItems = await _cache.GetOrCreateAsync(Constants.GetBestNewsKey, async entry =>
         {
             entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(GetBestNewsCachePeriodInMinutes);
-            return await FetchAllNewsItems();
+            return await FetchAllNewsItems(cancellationToken);
         });
 
         return bestNewsItems.Take(fetchCount).ToList();
     }
 
-    public async Task<List<NewsItem>> FetchAllNewsItems()
+    public async Task<List<NewsItem>> FetchAllNewsItems(CancellationToken cancellationToken)
     {
-        var bestNewsItems = await _hackerNewsClient.GetAllBestNewsItemsAsync();
+        var bestNewsItems = await _hackerNewsClient.GetAllBestNewsItemsAsync(cancellationToken);
         
-        var itemFetchTaskList = bestNewsItems.BestNewsIds.Select(_hackerNewsClient.GetNewsItemByIdAsync);
+        var itemFetchTaskList = bestNewsItems.BestNewsIds.Select(x => _hackerNewsClient.GetNewsItemByIdAsync(x, cancellationToken));
         
         var result = await Task.WhenAll(itemFetchTaskList);
 

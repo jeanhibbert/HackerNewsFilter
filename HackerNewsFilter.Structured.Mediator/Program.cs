@@ -1,17 +1,18 @@
 ﻿using DotnetDocsShow.Api.Services;
 using FastEndpoints;
 using FastEndpoints.Swagger;
+using HackerNewsFilter.Api;
 using HackerNewsFilter.Api.Middleware;
 using HackerNewsFilter.Api.Services;
 
 var builder = WebApplication.CreateBuilder();
-
-builder.Services.AddOutputCache();
-builder.Services.AddFastEndpoints().AddResponseCaching();
-builder.Services.SwaggerDocument();
 builder.Services.AddMemoryCache();
+builder.Services.AddOutputCache();
+builder.Services.AddFastEndpoints()
+    .AddResponseCaching()
+    .SwaggerDocument(o => o.EnableJWTBearerAuth = false);
 
-builder.Services.AddHttpClient(HackerNewsFilter.Api.Config.HackerNewsBaseUrlName, client =>
+builder.Services.AddHttpClient(Constants.HackerNewsBaseUrlName, client =>
 {
     client.BaseAddress = new Uri("https://hacker-news.firebaseio.com/v0/");
 });
@@ -23,7 +24,9 @@ var app = builder.Build();
 
 app.UseMiddleware<ValidationExceptionMiddleware>();
 app.UseOutputCache();
-app.UseResponseCaching().UseFastEndpoints();
+app.UseResponseCaching()
+    .UseFastEndpoints()
+    .UseSwaggerGen();
 
 if (app.Environment.IsDevelopment())
 {

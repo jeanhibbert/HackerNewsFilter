@@ -6,8 +6,8 @@ namespace HackerNewsFilter.Api.Services;
 
 public interface IHackerNewsClient
 {
-    Task<NewsItem> GetNewsItemByIdAsync(int id);
-    Task<BestNewsItems> GetAllBestNewsItemsAsync();
+    Task<NewsItem> GetNewsItemByIdAsync(int id, CancellationToken cancellationToken);
+    Task<BestNewsItems> GetAllBestNewsItemsAsync(CancellationToken cancellationToken);
 }
 
 public class HackerNewsClient : IHackerNewsClient
@@ -29,26 +29,26 @@ public class HackerNewsClient : IHackerNewsClient
             );
     }
 
-    public async Task<NewsItem> GetNewsItemByIdAsync(int id)
+    public async Task<NewsItem> GetNewsItemByIdAsync(int id, CancellationToken cancellationToken = default)
     {
-        var httpClient = _httpClientFactory.CreateClient(Config.HackerNewsBaseUrlName);
+        var httpClient = _httpClientFactory.CreateClient(Constants.HackerNewsBaseUrlName);
 
         return await _asyncRetryPolicy.ExecuteAsync(async () =>
         {
-            var response = await httpClient.GetAsync($"item/{id}.json");
+            var response = await httpClient.GetAsync($"item/{id}.json", cancellationToken);
             response.EnsureSuccessStatusCode();
 
             return await response.Content.ReadFromJsonAsync<NewsItem>();
         });
     }
 
-    public async Task<BestNewsItems> GetAllBestNewsItemsAsync()
+    public async Task<BestNewsItems> GetAllBestNewsItemsAsync(CancellationToken cancellationToken = default)
     {
-        var httpClient = _httpClientFactory.CreateClient(Config.HackerNewsBaseUrlName);
+        var httpClient = _httpClientFactory.CreateClient(Constants.HackerNewsBaseUrlName);
 
         return await _asyncRetryPolicy.ExecuteAsync(async () =>
         {
-            var response = await httpClient.GetAsync("beststories.json");
+            var response = await httpClient.GetAsync("beststories.json", cancellationToken);
             response.EnsureSuccessStatusCode();
 
             var bestNewIds = await response.Content.ReadFromJsonAsync<List<int>>();

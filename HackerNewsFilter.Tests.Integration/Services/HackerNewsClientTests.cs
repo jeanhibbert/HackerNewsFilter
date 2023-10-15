@@ -25,7 +25,7 @@ public class HackerNewsClientTests
         var hackerNewsClient = app.Services.GetRequiredService<IHackerNewsClient>();
 
         //Act
-        var response = await hackerNewsClient.GetNewsItemByIdAsync(newsItemId);
+        var response = await hackerNewsClient.GetNewsItemByIdAsync(newsItemId, default);
 
         //Assert
         response.Should().NotBeNull();
@@ -41,7 +41,7 @@ public class HackerNewsClientTests
         var hackerNewsClient = app.Services.GetRequiredService<IHackerNewsClient>();
 
         //Act
-        var response = await hackerNewsClient.GetNewsItemByIdAsync(newsItemId);
+        var response = await hackerNewsClient.GetNewsItemByIdAsync(newsItemId, default);
 
         //Assert
         response.Should().NotBeNull();
@@ -60,7 +60,7 @@ public class HackerNewsClientTests
         var hackerNewsClient = app.Services.GetRequiredService<IHackerNewsClient>();
 
         //Act
-        var response = await hackerNewsClient.GetAllBestNewsItemsAsync();
+        var response = await hackerNewsClient.GetAllBestNewsItemsAsync(default);
 
         //Assert
         response.Should().NotBeNull();

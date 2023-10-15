@@ -1,4 +1,0 @@
-### Get the following news top news items
-GET https://localhost:50561/news/1234
-Accept: application/json
-
