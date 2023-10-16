@@ -8,8 +8,8 @@ public class GetBestNewsItemsValidator : Validator<GetBestNewsItemsRequest>
 {
     public GetBestNewsItemsValidator()
     {
-        RuleFor(x => x.FetchCount)
+        RuleFor(x => x.limit)
             .GreaterThan(0)
-            .WithMessage($"{nameof(GetBestNewsItemsRequest.FetchCount)} must be greater than zero");
+            .WithMessage($"{nameof(GetBestNewsItemsRequest.limit)} must be greater than zero");
     }
 }

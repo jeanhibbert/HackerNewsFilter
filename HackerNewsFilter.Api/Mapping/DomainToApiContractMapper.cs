@@ -9,7 +9,7 @@ public static class DomainToApiContractMapper
     {
         return new GetBestNewsItemsResponse
         {
-            BestNewsItems = newsItems.Select(x => new NewsItemResponse
+            BestNewsItems = newsItems.Select(x => new NewsItemResult
             {
                 Title = x.title,
                 Uri = x.url,

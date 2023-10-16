@@ -20,16 +20,16 @@ public class GetBestNewsItemsEndpoint : Endpoint<GetBestNewsItemsRequest, GetBes
 
     public override void Configure()
     {
-        Get("news/{fetchCount:int}");
+        Get("news");
         AllowAnonymous();
-        Options(x => x.CacheOutput(p => p.SetVaryByQuery("fetchCount")
+        Options(x => x.CacheOutput(p => p.SetVaryByQuery("limit")
             .Expire(TimeSpan.FromSeconds(OutPutCacheTimeOutInSeconds))));
         Validator<GetBestNewsItemsValidator>();
     }
 
     public override async Task HandleAsync(GetBestNewsItemsRequest request, CancellationToken cancellationToken)
     {
-        var bestNewsItems = await _hackerNewsService.GetBestNewsItemsAsync(request.FetchCount);
+        var bestNewsItems = await _hackerNewsService.GetBestNewsItemsAsync(request.limit);
 
         if (bestNewsItems is null || !bestNewsItems.Any())
         {

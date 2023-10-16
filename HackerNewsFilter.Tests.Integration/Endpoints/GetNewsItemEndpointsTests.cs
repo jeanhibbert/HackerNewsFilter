@@ -1,7 +1,11 @@
 ﻿using AutoFixture;
 using DotnetDocsShow.Tests.Integration;
 using FluentAssertions;
+using HackerNewsFilter.Api.Contracts.Responses;
+using HackerNewsFilter.Tests.Integration.Extensions;
+using System.Collections.Generic;
 using System.Net;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -22,14 +26,18 @@ public class GetNewsItemEndpointsTests
         //Arrange
         using var app = new TestApplicationFactory();
 
-        var fetchCount = _fixture.Create<int>();
+        var limit = _fixture.CreateInt(20, 40);
         var httpClient = app.CreateClient();
 
         //Act
-        var response = await httpClient.GetAsync($"news/{fetchCount}");
+        var response = await httpClient.GetAsync($"news?limit={limit}");
 
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var responseText = await response.Content.ReadAsStringAsync();
+        var newsItemsResult = JsonSerializer.Deserialize<GetBestNewsItemsResponse>(responseText);
+        newsItemsResult.BestNewsItems.Should().NotBeNullOrEmpty();
+        newsItemsResult.BestNewsItems.Should().HaveCount(limit);
     }
 
     [Fact]
@@ -38,11 +46,11 @@ public class GetNewsItemEndpointsTests
         //Arrange
         using var app = new TestApplicationFactory();
 
-        var fetchCount = -1;
+        var limit = -1;
         var httpClient = app.CreateClient();
 
         //Act
-        var response = await httpClient.GetAsync($"news/{fetchCount}");
+        var response = await httpClient.GetAsync($"news?limit={limit}");
 
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);

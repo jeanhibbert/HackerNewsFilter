@@ -22,15 +22,15 @@ public class HackerNewsServiceTests
     public async Task CanGetBestNewsItems_WillReturnItemsRequested()
     {
         //Arrange
-        var fetchCount = _fixture.CreateInt(1, 40);
+        var limit = _fixture.CreateInt(1, 40);
 
         using var app = new TestApplicationFactory();
         var hackerNewsService = app.Services.GetRequiredService<IHackerNewsService>();
 
         //Act
-        var firstResponse = await hackerNewsService.GetBestNewsItemsAsync(fetchCount);
-        fetchCount++;
-        var secondResponse = await hackerNewsService.GetBestNewsItemsAsync(fetchCount);
+        var firstResponse = await hackerNewsService.GetBestNewsItemsAsync(limit);
+        limit++;
+        var secondResponse = await hackerNewsService.GetBestNewsItemsAsync(limit);
 
         //Assert
         firstResponse.Should().NotBeNull();
@@ -42,17 +42,17 @@ public class HackerNewsServiceTests
     public async Task CanGetBestNewsItems_WillOrderTheNewsItemsCorrectly()
     {
         //Arrange
-        var fetchCount = _fixture.CreateInt(1, 40);
+        var limit = _fixture.CreateInt(1, 40);
 
         using var app = new TestApplicationFactory();
         var hackerNewsService = app.Services.GetRequiredService<IHackerNewsService>();
 
         //Act
-        var response = await hackerNewsService.GetBestNewsItemsAsync(fetchCount);
+        var response = await hackerNewsService.GetBestNewsItemsAsync(limit);
 
         //Assert
         response.Should().NotBeNull();
-        response.Count.Should().Be(fetchCount);
+        response.Count.Should().Be(limit);
         var expectedList = response.OrderByDescending(x => x.score);
         response.SequenceEqual(expectedList);
     }

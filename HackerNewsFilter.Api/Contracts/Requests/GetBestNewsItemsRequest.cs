@@ -2,5 +2,5 @@
 
 public record GetBestNewsItemsRequest
 {
-    public int FetchCount { get; set; }
+    public int limit { get; set; }
 }

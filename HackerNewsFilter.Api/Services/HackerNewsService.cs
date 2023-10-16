@@ -7,7 +7,7 @@ namespace DotnetDocsShow.Api.Services;
 
 public interface IHackerNewsService
 {
-    Task<List<NewsItem>> GetBestNewsItemsAsync(int fetchCount, CancellationToken cancellationToken = default);
+    Task<List<NewsItem>> GetBestNewsItemsAsync(int limit, CancellationToken cancellationToken = default);
 }
 
 public class HackerNewsService : IHackerNewsService
@@ -26,7 +26,7 @@ public class HackerNewsService : IHackerNewsService
         _cache = cache;
     }
 
-    public async Task<List<NewsItem>> GetBestNewsItemsAsync(int fetchCount, CancellationToken cancellationToken = default)
+    public async Task<List<NewsItem>> GetBestNewsItemsAsync(int limit, CancellationToken cancellationToken = default)
     {
         var bestNewsItems = await _cache.GetOrCreateAsync(Constants.GetBestNewsKey, async entry =>
         {
@@ -34,7 +34,7 @@ public class HackerNewsService : IHackerNewsService
             return await FetchAllNewsItems(cancellationToken);
         });
 
-        return bestNewsItems.Take(fetchCount).ToList();
+        return bestNewsItems.Take(limit).ToList();
     }
 
     public async Task<List<NewsItem>> FetchAllNewsItems(CancellationToken cancellationToken)
