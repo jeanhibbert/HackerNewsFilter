@@ -9,7 +9,6 @@
 - Add additional unit tests around the HackerNewsService, HackerNewsClient & GetBestNewsItemsEndpoint (with validation check)
 - Add performance and load tests
 - Setup Polly retry in program.cs & perform additional encapsulation of service setup into extension methods
-- Ensure all request/response objects are using records and are immutable
 
 ## Implementation specification
 - Get full list of best news items
