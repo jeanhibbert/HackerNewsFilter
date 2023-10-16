@@ -1,5 +1,4 @@
 ﻿using AutoFixture;
-using DotnetDocsShow.Tests.Integration;
 using FluentAssertions;
 using HackerNewsFilter.Api.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,10 +24,10 @@ public class HackerNewsClientTests
         var hackerNewsClient = app.Services.GetRequiredService<IHackerNewsClient>();
 
         //Act
-        var response = await hackerNewsClient.GetNewsItemByIdAsync(newsItemId, default);
+        var newsItem = await hackerNewsClient.GetNewsItemByIdAsync(newsItemId, default);
 
         //Assert
-        response.Should().NotBeNull();
+        newsItem.Should().NotBeNull();
     }
 
     [Fact]
@@ -41,15 +40,15 @@ public class HackerNewsClientTests
         var hackerNewsClient = app.Services.GetRequiredService<IHackerNewsClient>();
 
         //Act
-        var response = await hackerNewsClient.GetNewsItemByIdAsync(newsItemId, default);
+        var newsItem = await hackerNewsClient.GetNewsItemByIdAsync(newsItemId, default);
 
         //Assert
-        response.Should().NotBeNull();
-        response.descendants.Should().NotBe(0);
-        response.id.Should().NotBe(0);
-        response.by.Should().NotBeNullOrWhiteSpace();
-        response.url.Should().NotBeNullOrWhiteSpace();
-        response.time.Should().NotBe(0);
+        newsItem.Should().NotBeNull();
+        newsItem.descendants.Should().NotBe(0);
+        newsItem.id.Should().NotBe(0);
+        newsItem.by.Should().NotBeNullOrWhiteSpace();
+        newsItem.url.Should().NotBeNullOrWhiteSpace();
+        newsItem.time.Should().NotBe(0);
     }
 
     [Fact]
@@ -60,10 +59,10 @@ public class HackerNewsClientTests
         var hackerNewsClient = app.Services.GetRequiredService<IHackerNewsClient>();
 
         //Act
-        var response = await hackerNewsClient.GetAllBestNewsItemsAsync(default);
+        var newsItems = await hackerNewsClient.GetAllBestNewsItemsAsync(default);
 
         //Assert
-        response.Should().NotBeNull();
-        response.BestNewsIds.Should().NotBeNullOrEmpty();
+        newsItems.Should().NotBeNull();
+        newsItems.BestNewsIds.Should().NotBeNullOrEmpty();
     }
 }

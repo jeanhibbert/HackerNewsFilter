@@ -1,5 +1,5 @@
 ﻿using AutoFixture;
-using DotnetDocsShow.Tests.Integration;
+using HackerNewsFilter.Tests.Integration;
 using FastEndpoints;
 using FluentAssertions;
 using HackerNewsFilter.Api.Contracts.Responses;

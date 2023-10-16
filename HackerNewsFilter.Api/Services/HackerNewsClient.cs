@@ -35,10 +35,13 @@ public class HackerNewsClient : IHackerNewsClient
 
         return await _asyncRetryPolicy.ExecuteAsync(async () =>
         {
-            var response = await httpClient.GetAsync($"item/{id}.json", cancellationToken);
-            response.EnsureSuccessStatusCode();
+            var httpResponse = await httpClient.GetAsync($"item/{id}.json", cancellationToken);
+            if (!httpResponse.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException($"Get News Item Request failed with status code {httpResponse.StatusCode}");
+            }
 
-            return await response.Content.ReadFromJsonAsync<NewsItem>();
+            return await httpResponse.Content.ReadFromJsonAsync<NewsItem>();
         });
     }
 
@@ -48,10 +51,13 @@ public class HackerNewsClient : IHackerNewsClient
 
         return await _asyncRetryPolicy.ExecuteAsync(async () =>
         {
-            var response = await httpClient.GetAsync("beststories.json", cancellationToken);
-            response.EnsureSuccessStatusCode();
+            var httpResponse = await httpClient.GetAsync("beststories.json", cancellationToken);
+            if (!httpResponse.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException($"Best Stories Request failed with status code {httpResponse.StatusCode}");
+            }
 
-            var bestNewIds = await response.Content.ReadFromJsonAsync<List<int>>();
+            var bestNewIds = await httpResponse.Content.ReadFromJsonAsync<List<int>>();
             return new BestNewsItems
             {
                 BestNewsIds = bestNewIds

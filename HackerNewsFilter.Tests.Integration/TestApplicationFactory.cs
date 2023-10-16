@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace DotnetDocsShow.Tests.Integration;
+namespace HackerNewsFilter.Tests.Integration;
 
 internal class TestApplicationFactory : WebApplicationFactory<Program>
 {

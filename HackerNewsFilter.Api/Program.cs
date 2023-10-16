@@ -1,4 +1,4 @@
-﻿using DotnetDocsShow.Api.Services;
+﻿using HackerNewsFilter.Api.Services;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using HackerNewsFilter.Api;

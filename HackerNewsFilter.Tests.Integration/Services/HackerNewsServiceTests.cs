@@ -1,6 +1,6 @@
 ﻿using AutoFixture;
-using DotnetDocsShow.Api.Services;
-using DotnetDocsShow.Tests.Integration;
+using HackerNewsFilter.Api.Services;
+using HackerNewsFilter.Tests.Integration;
 using FluentAssertions;
 using HackerNewsFilter.Tests.Integration.Extensions;
 using Microsoft.Extensions.DependencyInjection;

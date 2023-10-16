@@ -1,9 +1,8 @@
 ﻿using HackerNewsFilter.Api;
 using HackerNewsFilter.Api.Models;
-using HackerNewsFilter.Api.Services;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace DotnetDocsShow.Api.Services;
+namespace HackerNewsFilter.Api.Services;
 
 public interface IHackerNewsService
 {
@@ -37,7 +36,7 @@ public class HackerNewsService : IHackerNewsService
         return bestNewsItems.Take(limit).ToList();
     }
 
-    public async Task<List<NewsItem>> FetchAllNewsItems(CancellationToken cancellationToken)
+    private async Task<List<NewsItem>> FetchAllNewsItems(CancellationToken cancellationToken)
     {
         var bestNewsItems = await _hackerNewsClient.GetAllBestNewsItemsAsync(cancellationToken);
         
