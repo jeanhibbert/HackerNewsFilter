@@ -2,7 +2,6 @@
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using HackerNewsFilter.Api;
-using HackerNewsFilter.Api.Middleware;
 using HackerNewsFilter.Api.Services;
 
 var builder = WebApplication.CreateBuilder();
@@ -22,7 +21,6 @@ builder.Services.AddTransient<IHackerNewsClient, HackerNewsClient>();
 
 var app = builder.Build();
 
-app.UseMiddleware<ValidationExceptionMiddleware>();
 app.UseOutputCache();
 app.UseResponseCaching()
     .UseFastEndpoints()

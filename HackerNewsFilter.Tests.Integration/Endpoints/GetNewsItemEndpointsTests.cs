@@ -1,9 +1,11 @@
 ﻿using AutoFixture;
 using DotnetDocsShow.Tests.Integration;
+using FastEndpoints;
 using FluentAssertions;
 using HackerNewsFilter.Api.Contracts.Responses;
 using HackerNewsFilter.Tests.Integration.Extensions;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -41,7 +43,7 @@ public class GetNewsItemEndpointsTests
     }
 
     [Fact]
-    public async Task GetNewsItemById_ReturnBadRequest_WhenValidationFails()
+    public async Task GetNewsItemById_ReturnErrorDetails_WhenValidationFails()
     {
         //Arrange
         using var app = new TestApplicationFactory();
@@ -54,5 +56,15 @@ public class GetNewsItemEndpointsTests
 
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+        var responseText = await response.Content.ReadAsStringAsync();
+        var validationResult = JsonSerializer.Deserialize<ErrorResponse>(responseText, new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        });
+        validationResult.Message.Should().Be("One or more errors occurred!");
+        validationResult.Errors.Should().HaveCount(1);
+        validationResult.Errors.Single().Key.Should().Be("limit");
+        validationResult.Errors.Single().Value.Single().Should().Be("limit must be greater than zero");
     }
 }
