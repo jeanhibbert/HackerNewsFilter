@@ -35,9 +35,9 @@ public class GetNewsItemEndpointsTests
         //Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var responseText = await response.Content.ReadAsStringAsync();
-        var newsItemsResult = JsonSerializer.Deserialize<GetBestNewsItemsResponse>(responseText);
-        newsItemsResult.BestNewsItems.Should().NotBeNullOrEmpty();
-        newsItemsResult.BestNewsItems.Should().HaveCount(limit);
+        var newsItemsResultList = JsonSerializer.Deserialize<List<NewsItemResult>>(responseText);
+        newsItemsResultList.Should().NotBeNullOrEmpty();
+        newsItemsResultList.Should().HaveCount(limit);
     }
 
     [Fact]

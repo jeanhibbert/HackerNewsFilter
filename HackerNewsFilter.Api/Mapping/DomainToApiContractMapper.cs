@@ -5,19 +5,16 @@ namespace HackerNewsFilter.Api.Mapping;
 
 public static class DomainToApiContractMapper
 {
-    public static GetBestNewsItemsResponse ToNewsItemsResponse(this IEnumerable<NewsItem> newsItems)
+    public static List<NewsItemResult> ToNewsItemsResultList(this IEnumerable<NewsItem> newsItems)
     {
-        return new GetBestNewsItemsResponse
+        return newsItems.Select(x => new NewsItemResult
         {
-            BestNewsItems = newsItems.Select(x => new NewsItemResult
-            {
-                Title = x.title,
-                Uri = x.url,
-                PostedBy = x.by,
-                Time = DateTimeOffset.FromUnixTimeSeconds(x.time),
-                Score = x.score,
-                CommentCount = x.descendants
-            })
-        };
+            Title = x.title,
+            Uri = x.url,
+            PostedBy = x.by,
+            Time = DateTimeOffset.FromUnixTimeSeconds(x.time),
+            Score = x.score,
+            CommentCount = x.descendants
+        }).ToList();
     }
 }

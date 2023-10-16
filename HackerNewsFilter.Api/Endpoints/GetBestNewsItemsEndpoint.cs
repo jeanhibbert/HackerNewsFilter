@@ -7,7 +7,7 @@ using HackerNewsFilter.Api.Validators;
 
 namespace HackerNewsFilter.Api.Endpoints;
 
-public class GetBestNewsItemsEndpoint : Endpoint<GetBestNewsItemsRequest, GetBestNewsItemsResponse>
+public class GetBestNewsItemsEndpoint : Endpoint<GetBestNewsItemsRequest, List<NewsItemResult>>
 {
     private readonly IHackerNewsService _hackerNewsService;
 
@@ -37,7 +37,7 @@ public class GetBestNewsItemsEndpoint : Endpoint<GetBestNewsItemsRequest, GetBes
             return;
         }
 
-        var result = bestNewsItems.ToNewsItemsResponse();
+        var result = bestNewsItems.ToNewsItemsResultList();
         await SendOkAsync(result, cancellationToken);
     }
 }
