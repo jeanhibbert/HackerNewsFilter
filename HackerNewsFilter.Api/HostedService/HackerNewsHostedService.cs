@@ -9,6 +9,7 @@ public sealed class HackerNewsHostedService : IHostedService
     private readonly ILogger<HackerNewsHostedService> _logger;
     private readonly PeriodicTimer _timer;
     private readonly CancellationTokenSource _cts = new();
+
     private const int GetBestNewsCachePeriodInMinutes = 5;
 
     private Task _timerTask;
@@ -29,7 +30,7 @@ public sealed class HackerNewsHostedService : IHostedService
     {
         _logger.LogInformation("{Service} is running.", nameof(HackerNewsHostedService));
         _timerTask = CacheBestNewsAsync(stoppingToken);
-        await _hackerNewsService.FetchAndCacheNewsItemsAsync(_cts.Token);
+        await _hackerNewsService.FetchAndCacheNewsItemsAsync(stoppingToken);
     }
 
     private async Task CacheBestNewsAsync(object state)

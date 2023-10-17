@@ -23,7 +23,7 @@ public class GetNewsItemEndpointsTests
     }
 
     [Fact]
-    public async Task GetNewsItemById_ReturnOk_WhenNewsItemDoesExist()
+    public async Task CanGetBestNews_WillReturnOk_WhenNewsItemsExist()
     {
         //Arrange
         using var app = new TestApplicationFactory();
@@ -43,7 +43,36 @@ public class GetNewsItemEndpointsTests
     }
 
     [Fact]
-    public async Task GetNewsItemById_ReturnErrorDetails_WhenValidationFails()
+    public async Task CanGetBestNewsMultipleTimes_WillReturnOk_WhenNewsItemsExist()
+    {
+        //Arrange
+        using var app = new TestApplicationFactory();
+
+        var request1Limit = _fixture.CreateInt(20, 40);
+        var request2Limit = _fixture.CreateInt(50, 80);
+
+        var httpClient = app.CreateClient();
+
+        //Act
+        var response1 = await httpClient.GetAsync($"news?limit={request1Limit}");
+        var response2 = await httpClient.GetAsync($"news?limit={request2Limit}");
+
+        //Assert
+        response1.StatusCode.Should().Be(HttpStatusCode.OK);
+        var response1Text = await response1.Content.ReadAsStringAsync();
+        var newsItemsResultList1 = JsonSerializer.Deserialize<List<NewsItemResult>>(response1Text);
+        newsItemsResultList1.Should().NotBeNullOrEmpty();
+        newsItemsResultList1.Should().HaveCount(request1Limit);
+
+        response2.StatusCode.Should().Be(HttpStatusCode.OK);
+        var response2Text = await response1.Content.ReadAsStringAsync();
+        var newsItemsResultList2 = JsonSerializer.Deserialize<List<NewsItemResult>>(response2Text);
+        newsItemsResultList2.Should().NotBeNullOrEmpty();
+        newsItemsResultList2.Should().HaveCount(request1Limit);
+    }
+
+    [Fact]
+    public async Task GetBestNews_WillReturnErrorDetails_WhenValidationFails()
     {
         //Arrange
         using var app = new TestApplicationFactory();
