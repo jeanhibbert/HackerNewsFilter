@@ -11,12 +11,9 @@
 - Setup Polly retry in program.cs & perform additional encapsulation of service setup into extension methods
 
 ## Implementation specification
-- Get full list of best news items
-- Populate the item list
-- Cache the item ordered list (5 minutes)
-- All further lookups can get Top(n) news items from cache
-- Periodically refresh the cache based on a time window
-
+- HackerNewsHosted background service starts up and caches the news items every 5 minutes
+- When an api call is recieved it either grabs the ordered news items from the cache or output cache kicks in if the same limit was used within 60 seconds
+    
 ## Third party frameworks used
 - FastEndpoints : https://fast-endpoints.com
 - FluentValidation
@@ -24,8 +21,7 @@
 - Polly : For Http external endpoint retry (on failure) strategies
 
 ## Caching strategies
-- Wanted to use a combination of output caching (60 second timeout) for multiple calls with the same limit query parameter, as well as in memory caching of the full best news item list (ordered by score) with a refresh time window of 5 minutes.
-The cache refresh strategies can be optimised over time.
+- HackerNewsHostService caches data on startup and every 5 minutes thereafter
 
 ## Reference URL
 https://github.com/HackerNews/API
