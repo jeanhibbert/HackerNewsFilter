@@ -1,10 +1,12 @@
-﻿using HackerNewsFilter.Api.Services;
-using FastEndpoints;
+﻿using FastEndpoints;
 using FastEndpoints.Swagger;
 using HackerNewsFilter.Api;
+using HackerNewsFilter.Api.HostedService;
 using HackerNewsFilter.Api.Services;
 
 var builder = WebApplication.CreateBuilder();
+builder.Services.AddHostedService<HackerNewsHostedService>();
+
 builder.Services.AddMemoryCache();
 builder.Services.AddOutputCache();
 builder.Services.AddFastEndpoints()

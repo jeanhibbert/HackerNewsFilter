@@ -1,5 +1,4 @@
-﻿using HackerNewsFilter.Api;
-using HackerNewsFilter.Api.Models;
+﻿using HackerNewsFilter.Api.Models;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace HackerNewsFilter.Api.Services;
@@ -7,6 +6,7 @@ namespace HackerNewsFilter.Api.Services;
 public interface IHackerNewsService
 {
     Task<List<NewsItem>> GetBestNewsItemsAsync(int limit, CancellationToken cancellationToken = default);
+    Task<List<NewsItem>> FetchAndCacheNewsItemsAsync(CancellationToken cancellationToken = default);
 }
 
 public class HackerNewsService : IHackerNewsService
@@ -27,13 +27,19 @@ public class HackerNewsService : IHackerNewsService
 
     public async Task<List<NewsItem>> GetBestNewsItemsAsync(int limit, CancellationToken cancellationToken = default)
     {
+        var bestNewsItems = await FetchAndCacheNewsItemsAsync(cancellationToken);
+        return bestNewsItems.Take(limit).ToList();
+    }
+
+    public async Task<List<NewsItem>> FetchAndCacheNewsItemsAsync(CancellationToken cancellationToken = default)
+    {
         var bestNewsItems = await _cache.GetOrCreateAsync(Constants.GetBestNewsKey, async entry =>
         {
             entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(GetBestNewsCachePeriodInMinutes);
             return await FetchAllNewsItems(cancellationToken);
         });
 
-        return bestNewsItems.Take(limit).ToList();
+        return bestNewsItems.ToList();
     }
 
     private async Task<List<NewsItem>> FetchAllNewsItems(CancellationToken cancellationToken)
